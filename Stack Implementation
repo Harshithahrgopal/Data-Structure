@@ -1,0 +1,74 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define n 5
+
+int stack[n],top=-1,choice=1;
+void push()
+
+{
+    while(choice==1)
+    {
+        int x;
+        printf("enter the data of insertion:");
+        scanf("%d",&x);
+        if(top==n-1)
+        {
+            printf("overflow");
+        }
+
+        else{
+            top++;
+            stack[top]=x;
+        }
+                printf("enter the choice\n");
+   scanf("%d",&choice);
+
+
+   }
+
+}
+void pop()
+{
+    int item;
+    while(choice==0
+          ){
+
+    if(top==-1)
+    {
+       printf("underflow");
+    }
+    else
+    {
+        item=stack[top];
+        top--;
+    }
+    printf("deleted item is:%d",item);
+                printf("enter the choice\n");
+   scanf("%d",&choice);}
+}
+void isfull()
+{
+    if(top==n-1)
+    {
+        printf("overflow");
+    }
+}
+void isempty()
+{
+    if(top==-1)
+    {
+        printf("underflow");
+    }
+}
+void display()
+{    printf("array elements are:");
+    for(int i=top;i>=0;i--)
+        printf("\n%d",stack[i]);
+}
+int main()
+{
+
+    push();
+    pop();
+    display();
+}
