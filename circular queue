@@ -1,0 +1,111 @@
+#include<stdio.h>
+#define SIZE 5
+int items[SIZE];
+int front=-1,rear=-1;
+int isfull()
+{
+    if((front==rear+1)||(front==0 && rear==SIZE-1))
+    {
+        return 1;
+    }
+    return 0;
+}
+
+int isempty()
+{
+    if(front==-1)
+    {
+        return 1;
+    }
+    return 0;
+}
+ void enqueue(int ele)
+{
+    if(isfull())
+    {
+        printf("queue is full\n");
+    }
+    else
+    {
+        if(front==-1)
+        {
+            front=0;
+        }
+        rear=(rear+1)%SIZE;
+        items[rear]=ele;
+        printf("inserted:%d\n",ele);
+    }
+}
+int dequeue()
+{
+    int ele;
+    if(isempty())
+    {
+        printf("queue is empty\n");
+        return (-1);
+
+    }
+    else
+    {
+        ele=items[front];
+        if(front==rear)
+        {
+            front=-1;
+            rear=-1;
+        }
+        else
+        {
+            front=(front+1)%SIZE;
+        }
+        printf("deleted item is:%d\n",ele);
+        return (ele);
+    }
+}
+
+void display()
+{
+    int i;
+    if(isempty())
+    {
+        printf("printf queue is empty");
+    }
+    else
+    {
+        printf("front is:%d\n",front);
+        printf("items is:\n");
+        for (i=front;i!=rear;i=(i+1)%SIZE)
+        {
+            printf("%d\n",items[i]);
+        }
+        printf("%d\n",items[i]);
+        printf("rear:%d\n",rear);
+    }
+}
+void main()
+{
+    int choice,ele;
+    while(1)
+    {
+        printf("1.enqueue\n");
+        printf("2.dequeue\n");
+        printf("3.display\n");
+        printf("4.exit\n");
+        printf("enter your choice:");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1: printf("enter the ele to be inserted:\n");
+                   scanf("%d",&ele);
+                   enqueue(ele);
+            break;
+            case 2:dequeue();
+            break;
+            case 3:display();
+            break;
+            case 4:exit(1);
+            break;
+            default:printf("invalid choice\n");
+        }
+
+    }
+}
