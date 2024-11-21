@@ -1,0 +1,102 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+void push(struct Node** top, int value) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->next = *top;
+    *top = newNode;
+}
+
+int pop(struct Node** top) {
+    if (*top == NULL) {
+        printf("Stack Underflow\n");
+        return -1;
+    }
+    struct Node* temp = *top;
+    int poppedValue = temp->data;
+    *top = (*top)->next;
+    free(temp);
+    return poppedValue;
+}
+
+void enqueue(struct Node** front, struct Node** rear, int value) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->next = NULL;
+
+    if (*rear == NULL) {
+        *front = *rear = newNode;
+        return;
+    }
+
+    (*rear)->next = newNode;
+    *rear = newNode;
+}
+
+int dequeue(struct Node** front, struct Node** rear) {
+    if (*front == NULL) {
+        printf("Queue Underflow\n");
+        return -1;
+    }
+    struct Node* temp = *front;
+    int dequeuedValue = temp->data;
+    *front = (*front)->next;
+
+    if (*front == NULL) {
+        *rear = NULL;
+    }
+
+    free(temp);
+    return dequeuedValue;
+}
+
+void display(struct Node* head) {
+    if (head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+    struct Node* temp = head;
+    while (temp != NULL) {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    struct Node* stack = NULL;
+    struct Node* front = NULL;
+    struct Node* rear = NULL;
+
+    printf("Stack Operations:\n");
+    push(&stack, 10);
+    push(&stack, 20);
+    push(&stack, 30);
+
+    printf("Stack contents: ");
+    display(stack);
+
+    printf("Popped from stack: %d\n", pop(&stack));
+    printf("Stack contents after pop: ");
+    display(stack);
+
+    printf("\nQueue Operations:\n");
+    enqueue(&front, &rear, 10);
+    enqueue(&front, &rear, 20);
+    enqueue(&front, &rear, 30);
+
+    printf("Queue contents: ");
+    display(front);
+
+    printf("Dequeued from queue: %d\n", dequeue(&front, &rear));
+    printf("Queue contents after dequeue: ");
+    display(front);
+
+    return 0;
+}
