@@ -1,0 +1,92 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* prev;
+    struct Node* next;
+};
+
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->prev = NULL;
+    newNode->next = NULL;
+    return newNode;
+}
+
+void insertLeft(struct Node** head, int targetValue, int newValue) {
+    struct Node* current = *head;
+    while (current != NULL && current->data != targetValue) {
+        current = current->next;
+    }
+
+    if (current == NULL) {
+        printf("Node with value %d not found.\n", targetValue);
+        return;
+    }
+
+    struct Node* newNode = createNode(newValue);
+    newNode->next = current;
+    newNode->prev = current->prev;
+
+    if (current->prev != NULL) {
+        current->prev->next = newNode;
+    } else {
+        *head = newNode;
+    }
+    current->prev = newNode;
+}
+
+void deleteNode(struct Node** head, int value) {
+    struct Node* current = *head;
+    while (current != NULL && current->data != value) {
+        current = current->next;
+    }
+
+    if (current == NULL) {
+        printf("Node with value %d not found.\n", value);
+        return;
+    }
+
+    if (current->prev != NULL) {
+        current->prev->next = current->next;
+    } else {
+        *head = current->next;
+    }
+
+    if (current->next != NULL) {
+        current->next->prev = current->prev;
+    }
+
+    free(current);
+    printf("Node with value %d deleted.\n", value);
+}
+
+void displayList(struct Node* head) {
+    struct Node* current = head;
+    while (current != NULL) {
+        printf("%d ", current->data);
+        current = current->next;
+    }
+    printf("\n");
+}
+
+int main() {
+    struct Node* head = (struct Node*)malloc(sizeof(struct Node));
+    head->data = 10;
+    head->prev = NULL;
+    head->next = NULL;
+
+    insertLeft(&head, 10, 5);
+    insertLeft(&head, 10, 8);
+
+    printf("Doubly Linked List after insertion:\n");
+    displayList(head);
+
+    deleteNode(&head, 8);
+    printf("Doubly Linked List after deletion:\n");
+    displayList(head);
+
+    return 0;
+}
